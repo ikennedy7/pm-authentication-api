@@ -36,7 +36,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     private final AuthenticationFailureHandler failureHandler;
     private String headerString = "Authorization";
-    private String tokenPrefix = "Bearer: ";
+    private String tokenPrefix = "Bearer:";
     @Autowired
 	private JWTAuthenticationService jwtAuthenticationService ;
 

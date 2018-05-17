@@ -12,6 +12,7 @@ import com.heb.authentication.service.UserJTIService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ import java.util.Map;
  * RefreshTokenEndpoint
 
  */
+@Profile({"dev", "cert"})
 @RestController
 public class RefreshTokenEndpoint {
     private static Logger logger = LoggerFactory.getLogger(RefreshTokenEndpoint.class);
@@ -101,7 +103,7 @@ public class RefreshTokenEndpoint {
 
         String refreshtoken = tokenFactory.createRefreshToken(userJTIEntity);
 
-        response.addHeader("Authorization1",  "Bearer:" + " " + accesstoken );
+        response.addHeader("Authorization1",  "Bearer:" + "" + accesstoken );
         response.addHeader(jwtSettings.getRefreshHeader() , refreshtoken);
 
         logger.info("new accesstoken :"+accesstoken);

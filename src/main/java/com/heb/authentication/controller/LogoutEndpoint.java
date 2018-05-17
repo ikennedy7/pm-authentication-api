@@ -9,7 +9,9 @@ import com.heb.authentication.security.model.token.RawAccessJwtToken;
 import com.heb.authentication.security.model.token.RefreshToken;
 import com.heb.authentication.service.UserJTIService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +29,7 @@ import java.util.Map;
  * LogoutEndpoint - dummy logout endpoint never called :)
 
  */
+@Profile({"junit", "local"})
 @RestController
 public class LogoutEndpoint {
     private final JwtSettings jwtSettings;
@@ -77,5 +80,14 @@ public class LogoutEndpoint {
         //TODO send redirect to error page with login link
         //response.sendRedirect();
 
+    }
+
+    @GetMapping(value = "index")
+    public String index(){
+        return "This is index API and It's without Security";
+    }
+    @GetMapping(value = "secureAPI")
+    public String secureAPI() {
+        return "Spring security 5 in-memory Basic Authentication Example";
     }
 }

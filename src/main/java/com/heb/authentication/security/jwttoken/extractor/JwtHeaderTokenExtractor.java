@@ -11,7 +11,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
  */
 //@Component
 public class JwtHeaderTokenExtractor implements TokenExtractor {
-    public static String HEADER_PREFIX = "Bearer ";
+    public static String HEADER_PREFIX = "Bearer";
 
     @Override
     public String extract(String header) {

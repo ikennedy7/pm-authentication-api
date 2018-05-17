@@ -40,7 +40,7 @@ import java.util.List;
  * @author p235969
  * @since 11/7/14.
  */
-@Profile({"local","dev", "cert"})
+@Profile({"dev", "cert"})
 @Configuration
 @ConfigurationProperties
 @EnableWebSecurity
@@ -126,9 +126,6 @@ public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-
-
 
 
 

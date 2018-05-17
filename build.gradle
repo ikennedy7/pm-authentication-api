@@ -65,6 +65,8 @@ dependencies {
 	compile "com.microsoft.sqlserver.jdbc:sqljdbc4:3.0"
 	compile "com.h2database:h2"
 	compile "com.oracle:ojdbc6:11.2.0.2"
+	// Spring boot annotation configuration
+	compile "org.springframework.boot:spring-boot-configuration-processor"
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
