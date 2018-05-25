@@ -66,7 +66,6 @@ public class JWTAuthenticationSuccessHandler implements AuthenticationSuccessHan
             for (GrantedAuthority authority : authentication.getAuthorities()) {
                 roles.add(authority.getAuthority());
             }
-
             ObjectNode node = mapper.createObjectNode();
             node.put(USERNAME_ID_KEY, user.getUsername());
 

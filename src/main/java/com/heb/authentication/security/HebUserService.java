@@ -9,13 +9,75 @@
  */
 package com.heb.authentication.security;
 
+import com.heb.authentication.entity.HebUserDetailsEntity;
+import com.heb.authentication.repository.HebUserDetailsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.ldap.core.DirContextOperations;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.ldap.userdetails.LdapAuthoritiesPopulator;
+import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author r511759
  *
  */
-public interface HebUserService extends UserDetailsService {
+@Service
+public class HebUserService implements UserDetailsService {
 
 
+	@Autowired
+	private HebUserDetailsRepository hebUserDetailsRepository;
+	private UserDetailsContextMapper userMapper;
+	private LdapAuthoritiesPopulator authPopulator;
+	private HebUserDetailsMapper hebUserDetailsMapper;
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+//
+//		DirContextOperations  ctx=  null;
+//		HebUserDetailsEntity hebUserDetailsEntity = this.hebUserDetailsRepository.findByUsername("user");
+//
+//
+//		//Populate with permissions
+//		Collection<? extends GrantedAuthority> grantedAuthorities =	this.authPopulator.getGrantedAuthorities(ctx, "user");
+//
+//		UserDetails retObj2 = hebUserDetailsMapper.createHEBUserOnFly(ctx, username, grantedAuthorities);
+//		return retObj2;
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		return new HebUserData("user", "{noop}user", true, true, true, true, authorities);
+	}
+
+	public void setUserMapper(UserDetailsContextMapper userMapper) {
+		this.userMapper = userMapper;
+	}
+
+	/**
+	 * @return the userMapper
+	 */
+	public UserDetailsContextMapper getUserMapper() {
+		return this.userMapper;
+	}
+
+	/**
+	 * @param authPopulator the authPopulator to set
+	 */
+	public void setAuthPopulator(LdapAuthoritiesPopulator authPopulator) {
+		this.authPopulator = authPopulator;
+	}
+
+	/**
+	 * @return the authPopulator
+	 */
+	public LdapAuthoritiesPopulator getAuthPopulator() {
+		return this.authPopulator;
+	}
 }

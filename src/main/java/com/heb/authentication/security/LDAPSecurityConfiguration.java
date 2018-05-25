@@ -208,8 +208,6 @@ public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
 
-
-
     /**
      * Heb ldap user service heb ldap user service.
      *

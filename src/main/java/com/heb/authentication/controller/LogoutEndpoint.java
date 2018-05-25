@@ -29,7 +29,7 @@ import java.util.Map;
  * LogoutEndpoint - dummy logout endpoint never called :)
 
  */
-@Profile({"junit", "local"})
+@Profile({"local"})
 @RestController
 public class LogoutEndpoint {
     private final JwtSettings jwtSettings;

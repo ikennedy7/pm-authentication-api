@@ -94,4 +94,6 @@ public class HebLdapUserSearch implements LdapUserSearch {
 		return this.searchFilter;
 	}
 
+	public static class HebUserRoleFormat {
+	}
 }
