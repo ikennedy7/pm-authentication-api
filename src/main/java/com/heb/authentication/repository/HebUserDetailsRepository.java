@@ -9,6 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface HebUserDetailsRepository extends JpaRepository<HebUserDetailsEntity, String> {
-//	HebUserDetailsEntity findHebUserDetailsEntityByUsername(String username);
 	HebUserDetailsEntity findByUsername(String username);
 }

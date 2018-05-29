@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.heb.authentication.security.HebUserDetails;
+import com.heb.authentication.security.HebUserDetailsMapper;
 import com.heb.authentication.security.model.token.JwtTokenFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,7 @@ public class JWTAuthenticationSuccessHandler implements AuthenticationSuccessHan
             throws IOException, ServletException {
         // we need the principal to pass information back to the client
         // i.e. username and roles
-        User user = (User) authentication.getPrincipal();
+        HebUserDetails user = (HebUserDetails) authentication.getPrincipal();
         if (user != null) {
             // JSON transformer for user information
             ObjectMapper mapper = new ObjectMapper();
@@ -73,8 +74,8 @@ public class JWTAuthenticationSuccessHandler implements AuthenticationSuccessHan
             if (user instanceof HebUserDetails) {
                 node.put("name", ((HebUserDetails) user).getDisplayName());
                 node.put("corpId", ((HebUserDetails) user).getHebGLlocation());
-                node.put("roles", roles);
-            }
+				jwtAuthenticationService.addAuthentication(response, user);
+			}
             jwtAuthenticationService.addAuthentication(response, user);
             // prepare response for JSON consumption
             response.setStatus(HttpStatus.OK.value());

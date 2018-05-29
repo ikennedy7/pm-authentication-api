@@ -36,35 +36,24 @@ public class HebUserService implements UserDetailsService {
 
 	@Autowired
 	private HebUserDetailsRepository hebUserDetailsRepository;
-	private UserDetailsContextMapper userMapper;
 	private LdapAuthoritiesPopulator authPopulator;
-	private HebUserDetailsMapper hebUserDetailsMapper;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
 //
 //		DirContextOperations  ctx=  null;
-//		HebUserDetailsEntity hebUserDetailsEntity = this.hebUserDetailsRepository.findByUsername("user");
+		HebUserDetailsEntity hebUserDetailsEntity = this.hebUserDetailsRepository.findByUsername("user");
+		List<HebUserDetailsEntity> hebUserDetailsEntities = this.hebUserDetailsRepository.findAll();
 //
 //
 //		//Populate with permissions
-//		Collection<? extends GrantedAuthority> grantedAuthorities =	this.authPopulator.getGrantedAuthorities(ctx, "user");
+//		HebAuthoritiesPopulator hebAuthoritiesPopulator = new HebAuthoritiesPopulator();
+		Collection<? extends GrantedAuthority> grantedAuthorities =	this.authPopulator.getGrantedAuthorities(null, "sadc001");
 //
 //		UserDetails retObj2 = hebUserDetailsMapper.createHEBUserOnFly(ctx, username, grantedAuthorities);
 //		return retObj2;
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		return new HebUserData("user", "{noop}user", true, true, true, true, authorities);
-	}
-
-	public void setUserMapper(UserDetailsContextMapper userMapper) {
-		this.userMapper = userMapper;
-	}
-
-	/**
-	 * @return the userMapper
-	 */
-	public UserDetailsContextMapper getUserMapper() {
-		return this.userMapper;
+//		List<GrantedAuthority> authorities = new ArrayList<>();
+		return new HebUserDetails("sadc001", "{noop}happy123", true, true, true, true, grantedAuthorities);
 	}
 
 	/**
