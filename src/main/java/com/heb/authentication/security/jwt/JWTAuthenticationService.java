@@ -211,10 +211,7 @@ public class JWTAuthenticationService {
        }
         // No need to Validate if present in JTI DB for Logoff too
 
-     /*  String jti = refreshToken.getJti();
-        if (!tokenVerifier.verify(jti)) {
-            throw new InvalidJwtToken();
-        }*/
+
         //find the JTI for the refresh token and delete from DB table USERJTI
         UserJTIEntity userJTIEntity = userJTIService.findbyJTI(jti);
 

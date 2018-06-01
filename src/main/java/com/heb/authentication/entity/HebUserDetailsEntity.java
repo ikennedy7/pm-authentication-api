@@ -61,7 +61,7 @@ public class HebUserDetailsEntity implements Serializable{
 	protected HebUserDetailsEntity() { }
 
 	public HebUserDetailsEntity(String username, Date logintime, Boolean batch) {
-		this.username = "user";
+		this.username = username;
 		this.displayName = username;
 		this.logintime = logintime;
 		this.batch=batch;

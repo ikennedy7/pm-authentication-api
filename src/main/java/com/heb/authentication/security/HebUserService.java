@@ -40,20 +40,10 @@ public class HebUserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
-//
-//		DirContextOperations  ctx=  null;
-		HebUserDetailsEntity hebUserDetailsEntity = this.hebUserDetailsRepository.findByUsername("user");
-		List<HebUserDetailsEntity> hebUserDetailsEntities = this.hebUserDetailsRepository.findAll();
-//
-//
-//		//Populate with permissions
-//		HebAuthoritiesPopulator hebAuthoritiesPopulator = new HebAuthoritiesPopulator();
-		Collection<? extends GrantedAuthority> grantedAuthorities =	this.authPopulator.getGrantedAuthorities(null, "sadc001");
-//
-//		UserDetails retObj2 = hebUserDetailsMapper.createHEBUserOnFly(ctx, username, grantedAuthorities);
-//		return retObj2;
-//		List<GrantedAuthority> authorities = new ArrayList<>();
-		return new HebUserDetails("sadc001", "{noop}happy123", true, true, true, true, grantedAuthorities);
+		HebUserDetailsEntity hebUserDetailsEntity = this.hebUserDetailsRepository.findByUsername(username);
+		Collection<? extends GrantedAuthority> grantedAuthorities =	this.authPopulator.getGrantedAuthorities(null, username);
+
+		return new HebUserDetails(hebUserDetailsEntity.getUsername(), "{noop}" + hebUserDetailsEntity.getPassword(), true, true, true, true, grantedAuthorities);
 	}
 
 	/**

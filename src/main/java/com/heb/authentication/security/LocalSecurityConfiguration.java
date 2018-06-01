@@ -15,39 +15,27 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 import org.springframework.security.ldap.search.LdapUserSearch;
 import org.springframework.security.ldap.userdetails.LdapAuthoritiesPopulator;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
-import java.security.AuthProvider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.heb.authentication.security.LDAPSecurityConfiguration.FORM_BASED_LOGIN_ENTRY_POINT;
+import static com.heb.authentication.security.LDAPSecurityConfiguration.TOKEN_REFRESH_ENTRY_POINT;
 import static com.heb.authentication.security.LDAPSecurityConfiguration.FORM_BASED_LOGIN_ENTRY_POINT;
 import static com.heb.authentication.security.LDAPSecurityConfiguration.TOKEN_REFRESH_ENTRY_POINT;
 
@@ -186,49 +174,6 @@ public class LocalSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		CustomAuthoritiesPopulator customAuthoritiesPopulator = new CustomAuthoritiesPopulator();
 		customAuthoritiesPopulator.setArbafDao(this.arbafDao());
 		return customAuthoritiesPopulator;
-	}
-
-
-	/**
-	 * Heb ldap user service heb ldap user service.
-	 *
-	 * @return the heb ldap user service
-	 */
-	@Bean
-	public HebLdapUserService hebLdapUserService() {
-		HebLdapUserService userDetailsService = new HebLdapUserService();
-		List<LdapUserSearch> searchFinders = new ArrayList<>();
-		searchFinders.add(this.hebSearch());
-		userDetailsService.setUserFinders(searchFinders);
-		userDetailsService.setUserMapper(this.userDetailsMapper());
-		userDetailsService.setAuthPopulator(this.authoritiesPopulator());
-		return userDetailsService;
-	}
-
-	/**
-	 * Heb search heb ldap user search.
-	 *
-	 * @return the heb ldap user search
-	 */
-	@Bean
-	public HebLdapUserSearch hebSearch() {
-		HebLdapUserSearch hebLdapUserSearch = new HebLdapUserSearch(this.getContextSource());
-		hebLdapUserSearch.setSearchBasePattern(this.userSearchBase);
-		hebLdapUserSearch.setSearchFilter(this.userSearchFilter);
-		return hebLdapUserSearch;
-	}
-
-	/**
-	 * Get context source default spring security context source.
-	 *
-	 * @return the default spring security context source
-	 */
-	@Bean
-	public DefaultSpringSecurityContextSource getContextSource() {
-		DefaultSpringSecurityContextSource dctx = new DefaultSpringSecurityContextSource(this.url);
-		dctx.setUserDn(this.managerDn);
-		dctx.setPassword(this.managerPassword);
-		return dctx;
 	}
 
 	/**

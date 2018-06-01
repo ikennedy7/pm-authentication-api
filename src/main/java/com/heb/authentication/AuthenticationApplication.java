@@ -74,7 +74,7 @@ public class AuthenticationApplication extends SpringBootServletInitializer {
 	 * @return the data source
 	 */
 	@Bean
-	@Profile("dev,cert,prod")
+	@Profile("local,dev,cert,prod")
 	@ConfigurationProperties(prefix = "datasource.arbaf")
 	public DataSource secondaryDataSource() {
 		return DataSourceBuilder.create().build();

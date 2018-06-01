@@ -32,9 +32,10 @@ public class HebAuthoritiesPopulator implements LdapAuthoritiesPopulator {
     @Value("${arbaf.appid}")
 	private String applAbb;
     private String findApplicationQuery = "select appl_id from appl_nm where appl_nm=?";
-    private String findRolesByOnepass = "select usr_role_job_cd.usr_role_cd, usr_role_abb, usr_role_des from idm, usr_role, usr_sec_grp, usr_role_job_cd "+
-                                        "where idm.usr_id=usr_sec_grp.usr_id and usr_sec_grp.usr_role_cd=usr_role.usr_role_cd "+
-                                        "and appl_id=? and idm.usr_id=?";
+    private String findRolesByOnepass = "select usr_sec_grp.usr_role_cd, USR_ROLE.usr_role_abb, USR_ROLE.usr_role_des " +
+			"from usr_role, usr_sec_grp " +
+			"where usr_sec_grp.usr_role_cd=usr_role.usr_role_cd " +
+			"and appl_id=? and usr_sec_grp.usr_id=?";
     private String findRolesByOnepassAndJobCd = "select usr_role.usr_role_cd, usr_role_abb, usr_role_des "+
                                                       "from idm, usr_role, usr_sec_grp  " +
                                                         "where idm.usr_id=usr_sec_grp.usr_id  "  +
@@ -86,8 +87,6 @@ public class HebAuthoritiesPopulator implements LdapAuthoritiesPopulator {
 		String jobCode =  null;
 		if(ldapCtx != null) {
 			jobCode = ldapCtx.getStringAttribute(HEB_JOB_CODE);
-			// TODO: REMOVE!!
-			jobCode = null;
 		}
 		Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
         List<Map<String, Object>> results = null;

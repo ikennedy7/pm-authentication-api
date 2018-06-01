@@ -33,7 +33,7 @@ import java.io.IOException;
 public class JWTAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private  ObjectMapper mapper;
     private JwtTokenFactory tokenFactory;
-
+//    private static final int  MAX_HTTPP_HEADER = 500;
     private static final String USERNAME_ID_KEY = "id";
     private static final String USER_ROLES_KEY = "roles";
     private static final String CORP_ID_KEY = "corpId";
